@@ -1,0 +1,32 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+.Content {
+  background: #ffffff;
+  box-shadow: 0 4px 8px rgb(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.Media {
+  display: Flex;
+  -webkit-box-align: start;
+  align-items: flex-start;
+}
+
+.Container{
+  width: 100%;
+  padding-right: var(--bs-gutter-x, 0.75rem);
+  padding-left: var(--bs-gutter-x, 0.75rem);
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 1.5rem !important;
+}
