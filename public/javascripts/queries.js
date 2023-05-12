@@ -1,4 +1,4 @@
-const db = require("db");
+const db = require("./db.js");
 
 const getUsers = (request, response) => {
     db.query('SELECT * FROM member', (error, results) => {
