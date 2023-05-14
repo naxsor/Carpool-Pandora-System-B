@@ -4,6 +4,9 @@ const app = express()
 const qr = require('./public/javascripts/queries')
 const port = 5000
 
+const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'images')))
+
 app.use(bodyParser.json())
 app.use(
     bodyParser.urlencoded({

@@ -6,6 +6,19 @@ a {
   color: #00B7FF;
 }
 
+.navItem{
+  /*color: #282c34;*/
+}
+
+.button{
+  background: #260259;
+  color: white;
+  border: black;
+}
+
+.button:hover{
+  background: #EE05F2;
+}
 
 .Content {
   background: #ffffff;
