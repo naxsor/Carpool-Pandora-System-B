@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import News from "./pages/News";
+import TestFetch from './pages/TestFetch';
 
 export default function App() {
     return (
@@ -14,6 +15,7 @@ export default function App() {
             <Routes>
                 <Route index element={<Home />} />
                 <Route path="news" element={<News />} />
+                <Route path="testFetch" element={<TestFetch />} />
             </Routes>
         </BrowserRouter>
     );
