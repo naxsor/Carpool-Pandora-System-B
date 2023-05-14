@@ -1,9 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const app = express()
 const qr = require('./public/javascripts/queries')
 const port = 5000
 
+app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(
     bodyParser.urlencoded({
@@ -23,11 +25,15 @@ app.get('/', (request, response) => {
   response.json({ info: 'Node.js, Express, and Postgres API' })
 })
 
+//AUTHENTICATION
+app.post("/register", qr.register)
+app.post("/login", qr.login)
+app.post("/logout", qr.logout)
+//Users
 app.get('/users', qr.getUsers)
 app.get('/users/:id', qr.getUserById)
-app.post('/users', qr.createUser)
-app.put('/users/:id', qr.updateUser)
-app.delete('/users/:id', qr.deleteUser)
+app.put('/users/edit/:id', qr.updateUser)
+app.put('/users/delete/:id', qr.deleteUser)
 
 
 
