@@ -2,7 +2,9 @@ import axios from "axios";
 import {useEffect} from "react"
 import {useState} from "react"
 import Navigation from "../components/Navigation";
+import Layout from "../components/Layout";
 import Content from "../components/Content";
+import {map} from "react-bootstrap/ElementChildren";
 
 const ListItem = (props) => {
     const {user} = props;
@@ -13,6 +15,21 @@ const ListItem = (props) => {
 }
 const TestFetch = () => {
     const [users, setUsers] = useState([])
+    let children;
+
+    children = {
+        column:"Demo 1",
+        // text_2:"Demo 2"
+    };
+
+    children.column = users.map((user) =>(
+        <div className="d-flex bd-highlight">
+            <Content>
+                <ListItem key={user.id} user={user}/>
+            </Content>
+        </div>
+
+        ))
 
     useEffect(()=> {
         const fetchData = async () => {
@@ -25,15 +42,12 @@ const TestFetch = () => {
         }
         fetchData()
     },[])
+
     return (
                 <div className="App">
-                    <Navigation/>
-                        {users.map((user) =>(
-                            <Content>
-                                <ListItem key={user.id} user={user}/>
-                            </Content>
-                        ))}
-                    
+                    <Layout>
+                        {children}
+                    </Layout>
                 </div>
     );
 };
