@@ -2,53 +2,46 @@ import "../stylesheets/style.css"
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Carousel from 'react-bootstrap/Carousel';
+import {Button} from "react-bootstrap";
 
 function Slideshow() {
     return (
         <>
-            <main>
+            <header className="bg-light">
                 <Row>
                     <Col md="12">
-                        <Carousel variant="dark">
+                        {/*TODO: Change this as a react component*/}
+                        <div className="overlay">
+                            <h1 className="display-5 fw-bolder mb-2 text-white">College Rides</h1>
+                            <Button className="home-button ms-2 text-white" variant="outline-success">Sign Up</Button>
+                            <Button className="home-button ms-2" variant="outline-success">Log In</Button>
+                        </div>
+                        <Carousel variant="light" controls={false}>
                         <Carousel.Item>
                         <img
-                        className="d-block w-100"
-                        src="/commute.jpg"
+                        className="img-fluid mx-auto d-block w-100"
+                        src="http://localhost:5000/comute1.jpg"
                         alt="First slide"
                         />
-                        <Carousel.Caption>
-                        <h5>First slide label</h5>
-                        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                        </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item>
                         <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=Second slide&bg=eee"
+                        className="img-fluid mx-auto d-block w-100"
+                        src="http://localhost:5000/comute2.jpg"
                         alt="Second slide"
                         />
-                        <Carousel.Caption>
-                        <h5>Second slide label</h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </Carousel.Caption>
                         </Carousel.Item>
-                        <Carousel.Item>
+                        <Carousel.Item className="">
                         <img
-                        className="d-block w-100"
-                        src="holder.js/800x400?text=Third slide&bg=e5e5e5"
+                        className="img-fluid mx-auto d-block w-100"
+                        src="http://localhost:5000/comute3.jpg"
                         alt="Third slide"
                         />
-                        <Carousel.Caption>
-                        <h5>Third slide label</h5>
-                        <p>
-                        Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                        </p>
-                        </Carousel.Caption>
                         </Carousel.Item>
                         </Carousel>
                     </Col>
                 </Row>
-            </main>
+            </header>
         </>
     );
 }

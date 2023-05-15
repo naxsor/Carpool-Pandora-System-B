@@ -10,9 +10,9 @@ function Navigation() {
     return (
         <>
             {["false"].map((expand) => (
-                <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+                <Navbar key={expand} bg="light" expand={expand}>
                     <Container fluid>
-                        <Navbar.Brand href="/">Carpooling</Navbar.Brand>
+                        <Navbar.Brand href="/">College Rides</Navbar.Brand>
 
                         <Nav className="ms-auto m-2">
                             <Form className="d-flex">
@@ -21,7 +21,7 @@ function Navigation() {
                                     placeholder="Search"
                                     aria-label="Search"
                                 />
-                                <Button className="button ms-2"variant="outline-success">Search</Button>
+                                <Button className="button ms-2" variant="outline-success">Search</Button>
                             </Form>
 
                         </Nav>
