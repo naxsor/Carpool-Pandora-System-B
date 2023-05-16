@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import News from "./pages/News";
+import FindRoute from "./pages/FindRoute";
 import TestFetch from './pages/TestFetch';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
             <Routes>
                 <Route index element={<Home />} />
                 <Route path="news" element={<News />} />
+                <Route path="map" element={<FindRoute />} />
                 <Route path="testFetch" element={<TestFetch />} />
             </Routes>
         </BrowserRouter>
