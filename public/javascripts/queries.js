@@ -168,6 +168,56 @@ const deleteUser = (req, res) => {
     })
 }
 
+//RIDES
+const createRide = (req, res) =>{
+    
+    const q1 = 'SELECT * FROM member WHERE email = $1 AND "isDeleted" = false'
+
+    db.query(q1, [req.body.email] /*[req.user.email]*/, (err, data) =>{
+        if(err) {
+            return res.json(err)
+        }
+        if(data.rows.length == 0) return res.status(409).json("User not found")
+
+        const q2 = "INSERT INTO luggage_size(description) values($1) RETURNING id"
+
+        const member_id = data.rows[0].id
+
+        db.query(q2, [req.body.luggage_size], (err, data)=>{
+            if(err) {
+                return res.json(err)
+            }
+            const q3 = "INSERT INTO ride(member_id, travel_start, source_city_id, destination_city_id, seats_available, luggage_size_id, created_on) VALUES ($1, $2, $3, $4, $5, $6, now())"
+        
+            const luggage_size_id = data.rows[0].id
+            const values = [
+                member_id,
+                req.body.travel_start,
+                req.body.source_city_id,
+                req.body.destination_city_id,
+                req.body.seats_available,
+                luggage_size_id
+            ]
+
+            db.query(q3, [...values], (err, data)=>{
+                if(err) {
+                    return res.json(err)
+                }
+                return res.status(200).json("Ride has been created.")
+            })
+        })
+    })
+}
+
+const getCities = (req, res) =>{
+    db.query('SELECT * FROM city', (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 module.exports = {
     //Authentication
     register,
@@ -179,4 +229,7 @@ module.exports = {
     getUserById,
     updateUser,
     deleteUser,
+    //Rides
+    createRide,
+    getCities
 }
