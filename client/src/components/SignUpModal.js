@@ -6,17 +6,20 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import {useState} from "react";
 import axios from "axios";
-
-
+import CustomAlert from "./Alerts";
 
 function SignUpForm() {
+    const [show, setshow] = useState(false);
+    const [variant, setvariant] = useState("danger");
+    const [messege, setMessege] = useState("Mensaje")
     const [firstname, setFirstName] = useState(null);
     const [lastname, setLastName] = useState(null);
     const [email, setEmail] = useState(null);
+    const [confirmemail,setConfirmEmail] = useState(null);
     const [phone, setPhone] = useState(null);
     const [password,setPassword] = useState(null);
+    let children = {message:messege, show:show, variant:variant}
     // const [confirmPassword,setConfirmPassword] = useState(null);
-
     const handleInputChange = (e) => {
         const {id , value} = e.target;
         if(id === "firstname"){
@@ -27,6 +30,9 @@ function SignUpForm() {
         }
         if(id === "email"){
             setEmail(value);
+        }
+        if(id === "confirmemail"){
+            setConfirmEmail(value);
         }
         if(id === "phone"){
             setPhone(value);
@@ -42,20 +48,40 @@ function SignUpForm() {
 
     const handleSubmit  = (e) => {
         e.preventDefault();
-        console.log(firstname,lastname,email,phone,password);
         axios.post("/register", {
             firstname:firstname,
             lastname:lastname,
             email:email,
+            confirmemail:confirmemail,
             phone:phone,
             password:password}).then((response) => {
-            console.log(response.status, response.data);
+                if(response.status === 200){
+                    setvariant("success")
+                    setshow(true)
+                    setMessege("User has been created.")
+                }
+                console.log(response.status, response.data);
+        }).catch(error => {
+            if (error.response){
+
+            } else if (error.request) {
+                console.log(error.request);
+            } else {
+                console.log('Error', error.message)
+            }
+            if (error.message === "Request failed with status code 403"){
+                setshow(true)
+                setvariant("danger")
+                setMessege("This e-mail is already linked to another account.")
+            }
+            console.log(error.config)
         });
     }
 
     return (
         <Form id="signupform" onSubmit={handleSubmit}>
             <Form.Group>
+                <CustomAlert>{children}</CustomAlert>
                 <Row className="mb-4">
                     <Col>
                         <Form.Label>First Name</Form.Label>
@@ -75,7 +101,7 @@ function SignUpForm() {
                 <Row className="mb-4">
                     <Col>
                         <Form.Label>Confirm Email</Form.Label>
-                        <Form.Control type="email" placeholder="Confirm Email"/>
+                        <Form.Control id="confirmemail" value={confirmemail} onChange = {(e) => handleInputChange(e)} type="email" placeholder="Confirm Email"/>
                     </Col>
                 </Row>
                 <Row className="mb-4">

@@ -1,5 +1,4 @@
 import Navigation from './Navigation'
-// import Footer from './Footer'
 import Content from "./Content";
 import "../stylesheets/style.css"
 import Container from 'react-bootstrap/Container';

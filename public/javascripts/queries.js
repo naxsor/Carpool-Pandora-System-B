@@ -1,6 +1,9 @@
 const db = require("./db.js");
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const {register_validation} = require("./validator");
+
+
 
 require('dotenv').config()
 
@@ -9,11 +12,13 @@ const register = (req, res) =>{
     //Check For Exisiting User
     const q = 'SELECT * FROM member WHERE email = $1 AND "isDeleted" = false'
 
+    // register_validation(req, res)
+
     db.query(q, [req.body.email],(err, data)=>{
         if(err) {
             return res.json(err)
         }
-        if (data.rows.length != 0) return res.status(409).json("User already exists")
+        if (data.rows.length != 0) return res.status(403).json("User already exists")
 
         //Hash Password
         const salt = bcrypt.genSaltSync(10);
