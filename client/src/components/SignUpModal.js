@@ -18,8 +18,9 @@ function SignUpForm() {
     const [confirmemail,setConfirmEmail] = useState(null);
     const [phone, setPhone] = useState(null);
     const [password,setPassword] = useState(null);
+    const [confirmpassword,setsonfirmpassword] = useState(null);
+
     let children = {message:messege, show:show, variant:variant}
-    // const [confirmPassword,setConfirmPassword] = useState(null);
     const handleInputChange = (e) => {
         const {id , value} = e.target;
         if(id === "firstname"){
@@ -40,27 +41,84 @@ function SignUpForm() {
         if(id === "password"){
             setPassword(value);
         }
-        // if(id === "confirmPassword"){
-        //     setConfirmPassword(value);
-        // }
+        if(id === "confirmpassword"){
+            setsonfirmpassword(value);
+        }
 
     }
 
     const handleSubmit  = (e) => {
         e.preventDefault();
+
+        if(firstname === null){
+            setvariant("warning")
+            setMessege("First Name is empty.")
+            setshow(true)
+            return null
+        }
+        if(lastname === null){
+            setvariant("warning")
+            setMessege("Last Name is empty.")
+            setshow(true)
+            return null
+        }
+        if(email === null){
+            setvariant("warning")
+            setMessege("Email is empty.")
+            setshow(true)
+            return null
+        }
+        if(confirmemail === null){
+            setvariant("warning")
+            setMessege("Please confirm email.")
+            setshow(true)
+            return null
+        }
+        if(confirmemail === null){
+            setvariant("warning")
+            setMessege("Phone is empty")
+            setshow(true)
+            return null
+        }
+        if(phone === null){
+            setvariant("warning")
+            setMessege("Phone is empty")
+            setshow(true)
+            return null
+        }
+        if(password === null){
+            setvariant("warning")
+            setMessege("Password is empty")
+            setshow(true)
+            return null
+        }
+        if(confirmpassword === null){
+            setvariant("warning")
+            setMessege("Please confirm password.")
+            setshow(true)
+            return null
+        }
+
+
         axios.post("/register", {
             firstname:firstname,
             lastname:lastname,
             email:email,
             confirmemail:confirmemail,
             phone:phone,
-            password:password}).then((response) => {
-                if(response.status === 200){
+            password:password,
+            confirmpassword:confirmpassword}).then((response) => {
+            console.log(response.status, response.data);
+            if(response.status === 1 ){
+                    setvariant("warning")
+                    setshow(true)
+                    setMessege("First Name can only contain letters.")
+            }
+            if(response.status === 200){
                     setvariant("success")
                     setshow(true)
                     setMessege("User has been created.")
                 }
-                console.log(response.status, response.data);
         }).catch(error => {
             if (error.response){
 
@@ -69,10 +127,45 @@ function SignUpForm() {
             } else {
                 console.log('Error', error.message)
             }
-            if (error.message === "Request failed with status code 403"){
+            if (error.response.status === 403){
                 setshow(true)
                 setvariant("danger")
                 setMessege("This e-mail is already linked to another account.")
+            }
+            if(error.response.status === 501){
+                setshow(true)
+                setvariant("warning")
+                setMessege("No numeric characters on First Name.")
+            }
+            if(error.response.status === 502){
+                setshow(true)
+                setvariant("warning")
+                setMessege("No numeric characters on Last Name.")
+            }
+            if(error.response.status === 503){
+                setshow(true)
+                setvariant("warning")
+                setMessege("Invalid email on 'email' field.")
+            }
+            if(error.response.status === 504){
+                setshow(true)
+                setvariant("warning")
+                setMessege("Invalid email on 'confirm email' field.")
+            }
+            if(error.response.status === 505){
+                setshow(true)
+                setvariant("warning")
+                setMessege("Emails do not match.")
+            }
+            if(error.response.status === 506){
+                setshow(true)
+                setvariant("warning")
+                setMessege("Phone number is not valid.")
+            }
+            if(error.response.status === 507){
+                setshow(true)
+                setvariant("warning")
+                setMessege("Passwords are not equal")
             }
             console.log(error.config)
         });
@@ -114,16 +207,10 @@ function SignUpForm() {
                     <Col>
                         <Form.Label>Password</Form.Label>
                         <Form.Control id="password" value={password} onChange = {(e) => handleInputChange(e)} type="password" placeholder="Password"/>
-                        {/*<Form.Text className="text-muted">*/}
-                        {/*    We'll never share your email with anyone else.*/}
-                        {/*</Form.Text>*/}
                     </Col>
                     <Col>
                         <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" placeholder="Confirm Password"/>
-                        {/*<Form.Text className="text-muted">*/}
-                        {/*    We'll never share your email with anyone else.*/}
-                        {/*</Form.Text>*/}
+                        <Form.Control id="confirmpassword" type="password" value={confirmpassword} onChange = {(e) => handleInputChange(e)} placeholder="Confirm Password"/>
                     </Col>
                 </Row>
             </Form.Group>

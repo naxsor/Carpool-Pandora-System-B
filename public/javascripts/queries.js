@@ -9,10 +9,13 @@ require('dotenv').config()
 
 //AUTHENTICATION
 const register = (req, res) =>{
-    //Check For Exisiting User
-    const q = 'SELECT * FROM member WHERE email = $1 AND "isDeleted" = false'
+    //Check For Existing User
+    const x = register_validation(req, res)
+    if (res.statusCode !== 200){
+        return res.status(res.statusCode).json("No Alphanumeric on name")
+    }
 
-    // register_validation(req, res)
+    const q = 'SELECT * FROM member WHERE email = $1 AND "isDeleted" = false'
 
     db.query(q, [req.body.email],(err, data)=>{
         if(err) {
