@@ -7,6 +7,7 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from 'react-bootstrap/Container';
+import CustomAlert from "../components/Alerts";
 
 const RideForm = () => {
     
@@ -19,28 +20,65 @@ const RideForm = () => {
         start_location: state?.start_location || "",
         destination_location: state?.start_location || ""
     }])
+    const [show, setshow] = useState(false);
+    const [variant, setvariant] = useState("danger");
+    const [message, setMessage] = useState("Mensaje")
+
+    let children = {message:message, show:show, variant:variant}
+
+    function validDate() {
+        var dateString = ride.travel_start;
+        var inputDate = new Date(dateString)
+        var today = new Date()
+        if( today > inputDate){
+            throw Object.assign(
+                new Error(),
+                {code: 403 }
+            )
+            
+            ;
+        }
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(ride.email, ride.travel_start, ride.seats_available, ride.luggage_size)
+        
         try{
-            state 
-            ? await axios.put(`/rides/${state.id}`, {
-                email: ride.email,
-                travel_start: ride.travel_start,
-                seats_available: ride.seats_available,
-                luggage_size: ride.luggage_size
-            })
-            : await axios.post('/rides/new', {
-                email: ride.email,
-                travel_start: ride.travel_start,
-                seats_available: ride.seats_available,
-                luggage_size: ride.luggage_size
-            });
-        }catch(err){
-            console.log(err)
+            validDate()
         }
+        catch(err){
+            setvariant("danger")
+            setMessage("Departure date must be in the future.")
+            setshow(true)
+            return console.log(err)
+        }
+
+        state 
+        ? await axios.put(`/rides/${state.id}`, {
+            email: ride.email,
+            travel_start: ride.travel_start,
+            seats_available: ride.seats_available,
+            luggage_size: ride.luggage_size
+        })
+        : await axios.post('/rides/new', {
+            email: ride.email,
+            travel_start: ride.travel_start,
+            seats_available: ride.seats_available,
+            luggage_size: ride.luggage_size
+        }).then((response) => {
+            console.log(response.status, response.data);
+            if(response.status === 200){
+                    setvariant("success")
+                    setshow(true)
+                    setMessage("Your ride has been created.")
+                    document.getElementById("create-button").style.visibility = 'hidden'
+                }
+        }).catch(error => {
+            console.log(error)
+        });
       };
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setRide((ride) => ({...ride, [name]:value}))
@@ -49,6 +87,7 @@ const RideForm = () => {
     return (
         <div className="App">
             <Navigation/>
+            <CustomAlert>{children}</CustomAlert>
             <Container fluid="mt-4">
                 <Form onSubmit={handleSubmit}>
                     <Form.Group>
@@ -75,6 +114,7 @@ const RideForm = () => {
                                     name="travel_start"
                                     value={ride.travel_start}
                                     onChange={handleChange}
+                                    required
                                 />
                             </Col>
                             <Col md="4">
@@ -82,10 +122,11 @@ const RideForm = () => {
                             Seats available
                                 </Form.Label>
                                 <Form.Control 
-                                    type="integer"
+                                    type="number"
                                     name="seats_available"
                                     value={ride.seats_available}
                                     onChange={handleChange}
+                                    required
                                 />
                             </Col>
                         </Row>
@@ -98,6 +139,7 @@ const RideForm = () => {
                                     name="luggage_size"
                                     value={ride.luggage_size}
                                     onChange={handleChange}
+                                    required
                                 />
                                 </Col>
                         </Row>
