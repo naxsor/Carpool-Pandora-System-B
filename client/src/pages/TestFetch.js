@@ -1,10 +1,8 @@
 import axios from "axios";
 import {useEffect} from "react"
 import {useState} from "react"
-import Navigation from "../components/Navigation";
 import Layout from "../components/Layout";
 import Content from "../components/Content";
-import {map} from "react-bootstrap/ElementChildren";
 import sendNotification from "../Notifications";
 
 const ListItem = (props) => {

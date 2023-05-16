@@ -40,8 +40,17 @@ function SignUpForm() {
 
     }
 
-    const handleSubmit  = () => {
-        console.log(firstname,lastname,email,phone, password);
+    const handleSubmit  = (e) => {
+        e.preventDefault();
+        console.log(firstname,lastname,email,phone,password);
+        axios.post("/register", {
+            firstname:firstname,
+            lastname:lastname,
+            email:email,
+            phone:phone,
+            password:password}).then((response) => {
+            console.log(response.status, response.data);
+        });
     }
 
     return (
@@ -72,7 +81,7 @@ function SignUpForm() {
                 <Row className="mb-4">
                     <Col>
                         <Form.Label>Phone Number</Form.Label>
-                        <Form.Control id="phone" value={phone} onChange = {(e) => handleInputChange(e)} type="phone" placeholder="Phone"/>
+                        <Form.Control id="phone" value={phone} onChange = {(e) => handleInputChange(e)} type="tel" placeholder="Phone"/>
                     </Col>
                 </Row>
                 <Row className="mb-4">

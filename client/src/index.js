@@ -4,7 +4,6 @@ import './index.css';
 // import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import News from "./pages/News";
 import TestFetch from './pages/TestFetch';
