@@ -23,7 +23,7 @@ const register = (req, res) =>{
         const values = [
             req.body.firstname,
             req.body.lastname,
-            req.body.contact_number,
+            req.body.phone,
             req.body.email,
             hash
         ]
