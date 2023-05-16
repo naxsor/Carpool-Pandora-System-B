@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA57_WpqmqJsDU-Fn4XpWlERxmNvxSoXTk&libraries=places&callback=initMap"></script>
+</head>
+<body onload="initMap()">
+    <h1 class="text-center">Search for Route</h1>
+    <br><br>
+    <div class="container">
+
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Start" id="source">
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Destination" id="dest">
+        </div>
+
+        <div style="text-align: center;">
+        <button onclick= calcRoute() class="btn btn-primary">Generate Route</button>
+        </div>
+
+        <br>
+        <div id="map" style="height:500px;width:100%"></div>
+        <br><br>
+
+        <div style="text-align: center;">
+            <button class="btn btn-primary">Save Route</button>
+        </div>
+        
+    </div>
+</body>
+    <script>
+        let map,directionsService,directionsRenderer
+        let sourceAutocomplete,destAutocomplete
+        function initMap(){
+            map = new google.maps.Map(document.getElementById('map'),{
+                center:{lat:18.2075,lng:-67.1396},
+                zoom:13
+            })
+            google.maps.event.addListener(map,"click",function(event){
+                this.setOptions({scrollwheel:true})
+            })
+            directionsService = new google.maps.DirectionsService()
+            directionsRenderer = new google.maps.DirectionsRenderer()
+            directionsRenderer.setMap(map)
+
+            sourceAutocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('source')
+            )
+            destAutocomplete = new google.maps.places.Autocomplete(
+                document.getElementById('dest')
+            )
+        }
+
+        function calcRoute(){
+            var source = document.getElementById('source').value
+            var dest = document.getElementById('dest').value
+
+            let request = {
+                origin:source,
+                destination: dest,
+                travelMode: 'DRIVING'
+            }
+
+            directionsService.route(request, function(result,status){
+                if(status == "OK"){
+                    directionsRenderer.setDirections(result)
+                }
+            })
+        }
+    </script>
+</html>

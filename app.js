@@ -29,5 +29,8 @@ app.post('/users', qr.createUser)
 app.put('/users/:id', qr.updateUser)
 app.delete('/users/:id', qr.deleteUser)
 
+app.get('/map', function(req, res) {
+  res.sendFile('/maps/index.html');
+});
 
 
