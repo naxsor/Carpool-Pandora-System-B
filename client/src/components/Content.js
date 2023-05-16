@@ -4,11 +4,9 @@ const Content = ({ children }) => {
     return (
         <>
 
-            <main>
-                <div className="Media Content">
+                <div className="Media Content flex-grow-1">
                     {children}
                 </div>
-            </main>
         </>
     );
 }
