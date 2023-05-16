@@ -7,8 +7,8 @@ class News extends Component {
         data: null
     };
     children = {
-        text_1:"Demo 1",
-        text_2:"Demo 2"
+        column:"Demo 1",
+        // text_2:"Demo 2"
     };
 
     componentDidMount() {
@@ -31,6 +31,7 @@ class News extends Component {
             <div className="App">
                 <Layout>
                     {this.children}
+
                 </Layout>
                 <p className="App-intro">{this.state.data}</p>
             </div>

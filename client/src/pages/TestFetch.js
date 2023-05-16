@@ -2,7 +2,9 @@ import axios from "axios";
 import {useEffect} from "react"
 import {useState} from "react"
 import Navigation from "../components/Navigation";
+import Layout from "../components/Layout";
 import Content from "../components/Content";
+import {map} from "react-bootstrap/ElementChildren";
 import sendNotification from "../Notifications";
 
 const ListItem = (props) => {
@@ -14,14 +16,21 @@ const ListItem = (props) => {
 }
 const TestFetch = () => {
     const [users, setUsers] = useState([])
+    let children;
 
-    //For testing
-    const notificationParams = {
-        subject: "This is the subject",
-        name: "This is name",
-        message: "This is the message",
-        to_address: "" //ADD EMAIL HERE
-    }
+    children = {
+        column:"Demo 1",
+        // text_2:"Demo 2"
+    };
+
+    children.column = users.map((user) =>(
+        <div className="d-flex bd-highlight">
+            <Content>
+                <ListItem key={user.id} user={user}/>
+            </Content>
+        </div>
+
+        ))
 
     useEffect(()=> {
         const fetchData = async () => {
@@ -34,15 +43,21 @@ const TestFetch = () => {
         }
         fetchData()
     },[])
+
+    //For testing
+    const notificationParams = {
+        subject: "This is the subject",
+        name: "This is name",
+        message: "This is the message",
+        to_address: "" //ADD EMAIL HERE
+    }
+
     return (
                 <div className="App">
-                    <Navigation/>
-                        {users.map((user) =>(
-                            <Content>
-                                <ListItem key={user.id} user={user}/>
-                            </Content>
-                        ))}
-                    
+                    <Layout>
+                        {children}
+                    </Layout>
+
                     <button onClick={() => sendNotification(notificationParams)}>
                         Test notification
                     </button>

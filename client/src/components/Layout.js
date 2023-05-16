@@ -14,13 +14,13 @@ const Layout = ({children}) => {
             <Container fluid="mt-4" className="Container">
                 <Row>
                     <Col md="8">
-                        <Content>
-                            {children.text_1}
-                        </Content>
+                        {/*<Content>*/}
+                            {children.column}
+                        {/*</Content>*/}
                     </Col>
                     <Col md="4">
                         <Content>
-                            {children.text_2}
+                            Side Bar
                         </Content>
                     </Col>
                 </Row>

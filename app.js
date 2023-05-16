@@ -5,9 +5,7 @@ const app = express()
 const qr = require('./public/javascripts/queries')
 const port = 5000
 
-const path = require('path')
-app.use('/static', express.static(path.join(__dirname, 'images')))
-
+app.use(express.static('public/images'))
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(
