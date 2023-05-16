@@ -35,9 +35,9 @@ app.get('/users', qr.getUsers)
 app.get('/users/:id', qr.getUserById)
 app.put('/users/edit/:id', qr.updateUser)
 app.put('/users/delete/:id', qr.deleteUser)
+//RIDES
+app.post("/rides/new", /*qr.authenticateToken,*/ qr.createRide)
 
-app.get('/map', function(req, res) {
-  res.sendFile('/maps/index.html');
-});
+// app.get("/cities", qr.getCities)
 
 

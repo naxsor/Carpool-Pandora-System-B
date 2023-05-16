@@ -5,6 +5,7 @@ import Home from "pages/Home"
 import FindRoute from "pages/FindRoute"
 import TestFetch from "pages/TestFetch"
 import {Route, Routes} from "react-router-dom";
+import RideForm from './pages/RideForm';
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
             <Route path="/news" component={<News/> } />
             <Route path="/map" component={<FindRoute/> } />
             <Route path="/testFetch" component={<TestFetch/> } />
+            <Route path="/rideForm" component={<RideForm/> } />
           </Routes>
         </div>
     );
