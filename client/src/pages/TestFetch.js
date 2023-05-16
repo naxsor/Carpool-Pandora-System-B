@@ -5,6 +5,7 @@ import Navigation from "../components/Navigation";
 import Layout from "../components/Layout";
 import Content from "../components/Content";
 import {map} from "react-bootstrap/ElementChildren";
+import sendNotification from "../Notifications";
 
 const ListItem = (props) => {
     const {user} = props;
@@ -43,11 +44,24 @@ const TestFetch = () => {
         fetchData()
     },[])
 
+    //For testing
+    const notificationParams = {
+        subject: "This is the subject",
+        name: "This is name",
+        message: "This is the message",
+        to_address: "" //ADD EMAIL HERE
+    }
+
     return (
                 <div className="App">
                     <Layout>
                         {children}
                     </Layout>
+
+                    <button onClick={() => sendNotification(notificationParams)}>
+                        Test notification
+                    </button>
+
                 </div>
     );
 };
