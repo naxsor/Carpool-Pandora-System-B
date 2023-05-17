@@ -4,7 +4,7 @@ import News from "pages/News";
 import Home from "pages/Home"
 import TestFetch from "pages/TestFetch"
 import {Route, Routes} from "react-router-dom";
-import RideForm from './pages/RideForm';
+import RideCreation from './pages/RideCreation';
 
 class App extends Component {
   render() {
@@ -13,8 +13,9 @@ class App extends Component {
           <Routes>
             <Route path="/" component={<Home/> } />
             <Route path="/news" component={<News/> } />
+            {/*<Route path="/login" component={<LogInModal/> } />*/}
             <Route path="/testFetch" component={<TestFetch/> } />
-            <Route path="/rideForm" component={<RideForm/> } />
+            <Route path="/rideForm" component={<RideCreation/> } />
           </Routes>
         </div>
     );

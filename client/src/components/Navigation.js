@@ -7,13 +7,39 @@ import {Button, Form} from "react-bootstrap";
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import SignUpModal from "./SignUpModal";
 import LogInModal from "./LogInModal";
+import axios from "axios";
 
 function Navigation() {
-    const [modalShow, setModalShow] = React.useState(false);
-    const [modalShow2, setModalShow2] = React.useState(false);
+    const [visible, setVisible] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true)
+    const [modalShow, setModalShow] = useState(false);
+    const [modalShow2, setModalShow2] = useState(false);
+
+    useEffect(() => {
+        axios.get('/check-token').then(response => {
+            console.log(response.status, response.data);
+            if(response.status === 200){
+                setIsLoggedIn(false)
+                setVisible(true)
+            }
+        }).catch(err =>{
+            console.log(err);
+        })
+    });
+
+    function logout() {
+        axios.post('/logout').then(response => {
+            console.log(response.status, response.data);
+            if(response.status === 200){
+                setIsLoggedIn(true)
+                setVisible(false)
+            }
+        })
+    }
+
 
     return (
         <>
@@ -29,7 +55,11 @@ function Navigation() {
                                     placeholder="Search"
                                     aria-label="Search"
                                 />
+
                                 <Button className="button ms-2" variant="outline-success">Search</Button>
+                                { visible ?
+                                    <Button className="button block" variant="outline-success" onClick={logout}>Log Out</Button>:null
+                                }
                             </Form>
 
                         </Nav>
@@ -65,15 +95,23 @@ function Navigation() {
                                     <hr className="hr hr-blurry"/>
                                     <Row>
                                         <Col>
-                                            <Button className="button block" variant="outline-success" onClick={() => setModalShow(true)}>Sign Up</Button>
+                                            { isLoggedIn ?
+                                                <Button className="button block" variant="outline-success" onClick={() => setModalShow(true)}>Sign Up</Button>:null
+                                            }
                                             <SignUpModal show={modalShow} onHide={() => setModalShow(false)}/>
                                         </Col>
                                         <Col>
-                                            <Button className="button block" variant="outline-success" onClick={() => setModalShow2(true)}>Log In</Button>
+                                            { isLoggedIn ?
+                                                <Button className="button block" variant="outline-success" onClick={() => setModalShow2(true)}>Log In</Button>:null
+                                            }
                                             <LogInModal show={modalShow2} onHide={() => setModalShow2(false)}/>
                                         </Col>
                                     </Row>
-
+                                    <Row>
+                                        { visible ?
+                                            <Button className="block" variant="outline-secondary" onClick={logout}>Log Out</Button>:null
+                                        }
+                                    </Row>
                                 </Nav>
                             </Offcanvas.Body>
                         </Navbar.Offcanvas>

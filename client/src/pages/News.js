@@ -31,7 +31,6 @@ class News extends Component {
             <div className="App">
                 <Layout>
                     {this.children}
-
                 </Layout>
                 <p className="App-intro">{this.state.data}</p>
             </div>

@@ -21,7 +21,7 @@ const register = (req, res) =>{
         if(err) {
             return res.json(err)
         }
-        if (data.rows.length != 0) return res.status(403).json("User already exists")
+        if (data.rows.length !== 0) return res.status(403).json("User already exists")
 
         //Hash Password
         const salt = bcrypt.genSaltSync(10);
@@ -54,7 +54,7 @@ const login = (req, res) =>{
         if (err) {
             console.log(err)
             return res.json(err);}
-        if(data.rows.length == 0) return res.status(404).json("User not found");
+        if(data.rows.length === 0) return res.status(404).json("User not found");
 
         //Check password
         const correctPassword = bcrypt.compareSync(req.body.password, data.rows[0].password);
@@ -65,9 +65,10 @@ const login = (req, res) =>{
         const accessToken = generateAccessToken(user)
 
         // console.log(accessToken) //For testing
-        res.cookie("access_token", accessToken, {
-            httpOnly:true
-        }).status(200).json(`Logged in as user with ID: ${data.rows[0].id}`)
+        // res.cookie("access_token", accessToken, {
+        //     httpOnly:true
+        // }).status(200).json(`Logged in as user with ID: ${data.rows[0].id}`)
+        res.cookie("access_token", accessToken, {httpOnly:true}).status(200).json({accessToken:accessToken})
 
     })
 } 
@@ -78,19 +79,23 @@ const logout = (req, res) =>{
     }).status(200).json("User has been logged out")
 }
 function authenticateToken(req,res,next){
-    
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if(token == null) {
-        console.log(err)
-        return res.sendStatus(401)
+    // const authHeader = req.headers['authorization']
+    // const token = authHeader && authHeader.split(' ')[1]
+    const token = req.cookies.access_token
+    if (!token) {
+        res.status(401).send('Unauthorized: No token provided');
+    } else {
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: '1h'
+        }, (err, decoded) =>{
+            if(err) {
+                req.status(401).send('Unauthorized: Invalid token');
+            } else {
+                req.email = decoded.email;
+                next();
+            }
+        })
     }
-
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>{
-        if(err) return res.sendStatus(403) //This token is no longer valid
-        req.user = user
-        next()
-    })
 }
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET)
@@ -113,7 +118,7 @@ const getUserById = (request, response) => {
         if (error) {
             throw error
         }
-        if(results.rows.length  == 0) return response.status(404).json("User not found");
+        if(results.rows.length  === 0) return response.status(404).json("User not found");
         response.status(200).json(results.rows)
     })
 }
@@ -137,7 +142,7 @@ const updateUser = (req, res) => {
         if(err) {
             return res.json(err)
         }
-        if (data.rows.length == 0) return res.status(409).json("User not found")
+        if (data.rows.length === 0) return res.status(409).json("User not found")
 
         const q = "UPDATE member SET firstname = $1, lastname = $2, contact_number = $3, driving_licence_number = $4, driving_licence_exp = $5 WHERE id = $6"
         const userId = req.params.id
@@ -185,7 +190,7 @@ const createRide = (req, res) =>{
         if(err) {
             return res.json(err)
         }
-        if(data.rows.length == 0) return res.status(409).json("User not found")
+        if(data.rows.length === 0) return res.status(409).json("User not found")
 
         const q2 = "INSERT INTO luggage_size(description) values($1) RETURNING id"
 
