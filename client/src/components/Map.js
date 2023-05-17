@@ -168,7 +168,7 @@ const Map = () => {
     <div>
     <span>Travel Time: {travelTime}</span>
     </div>
-    <div ref={mapRef} style={{ height: '600px', width: '50%' }} />
+    <div ref={mapRef} style={{ height: '600px', width: '150%' }} />
     </div>
     );
     };
