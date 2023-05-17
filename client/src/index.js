@@ -16,7 +16,7 @@ export default function App() {
             <Routes>
                 <Route index element={<Home />} />
                 <Route path="news" element={<News />} />
-                <Route path="map" element={<FindRoute />} />
+                <Route path="routes" element={<FindRoute />} />
                 <Route path="testFetch" element={<TestFetch />} />
                 <Route path="rideForm" element={<RideForm />} />
             </Routes>

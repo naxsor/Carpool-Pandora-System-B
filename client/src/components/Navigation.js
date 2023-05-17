@@ -47,7 +47,7 @@ function Navigation() {
                             <Offcanvas.Body>
                                 <Nav className="justify-content-end flex-grow-1 pe-3">
                                     <Nav.Link href="/news">News</Nav.Link>
-                                    <Nav.Link href="#action2">Routes</Nav.Link>
+                                    <Nav.Link href="/routes">Routes</Nav.Link>
                                     <Nav.Link href="/rideForm">Create a ride</Nav.Link>
                                     <NavDropdown
                                         title="Dropdown"
