@@ -253,6 +253,7 @@ function RideDisplayForm() {
                                         placeholder="Start Location"
                                         value={startLocation}
                                         onChange={(e) => setStartLocation(e.target.value)}
+                                        readOnly
                                     />
                                 </Col>
                                 <Col>
@@ -262,7 +263,9 @@ function RideDisplayForm() {
                                         type="text"
                                         placeholder="Destination Location"
                                         value={destinationLocation}
-                                        onChange={(e) => setDestinationLocation(e.target.value)}/>
+                                        onChange={(e) => setDestinationLocation(e.target.value)}
+                                        readOnly
+                                        />
                                 </Col>
                             </Row>
                             <Row className="mb-4">
@@ -274,6 +277,7 @@ function RideDisplayForm() {
                                         value={departureDate}
                                         onChange={(e) => setDepartureDate(e.target.value)}
                                         required
+                                        readOnly
                                     />
                                 </Col>
                                 <Col>
@@ -286,6 +290,7 @@ function RideDisplayForm() {
                                         value={seatsAvailable}
                                         onChange={(e) => setSeatsAvailable(e.target.value)}
                                         required
+                                        readOnly
                                     />
                                 </Col>
                             </Row>
@@ -299,6 +304,7 @@ function RideDisplayForm() {
                                         value={luggageSize}
                                         onChange={(e) => setLuggageSize(e.target.value)}
                                         required
+                                        readOnly
                                     />
                                 </Col>
                                 <Col>
