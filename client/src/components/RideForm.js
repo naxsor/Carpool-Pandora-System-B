@@ -159,6 +159,16 @@ function RideForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const a = startLocation.split(',').shift()
+        const b = destinationLocation.split(',').shift()
+        setStartLocation(a)
+        setDestinationLocation(b)
+
+        const url = ['/cities/', startLocation].join('')
+        axios.get('/cities/').then(response =>{
+            console.log(response)
+        })
+
         console.log(
             startLocation,
             destinationLocation,

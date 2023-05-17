@@ -38,8 +38,8 @@ app.put('/users/delete/:id', qr.deleteUser)
 //RIDES
 app.post("/rides/new", /*qr.authenticateToken,*/ qr.createRide)
 
-// app.get("/cities", qr.getCities)
-
+app.get("/cities", qr.getCities)
+app.get("/cities/:name", qr.getCityidbyname)
 // authentication endpoint
 app.get('/check-token', qr.authenticateToken, function(req, res) {
     res.sendStatus(200);

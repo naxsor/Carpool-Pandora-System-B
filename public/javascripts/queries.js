@@ -242,6 +242,16 @@ const getCities = (req, res) =>{
     })
 }
 
+const getCityidbyname = (req, res) => {
+    const q = "SELECT * FROM city"
+    db.query(q, [req.params.name], (err, data)=>{
+        if(err) {
+            return res.json(err)
+        }
+        return data
+    })
+}
+
 module.exports = {
     //Authentication
     register,
@@ -255,5 +265,6 @@ module.exports = {
     deleteUser,
     //Rides
     createRide,
-    getCities
+    getCities,
+    getCityidbyname
 }
