@@ -33,7 +33,7 @@ function Slideshow() {
                     <Col md="12">
                         {/*TODO: Change this as a react component*/}
                         <div className="overlay">
-                            <h1 className="display-5 fw-bolder mb-2 text-white">College Rides</h1>
+                            <h1 className="display-5 fw-bolder mb-2 text-white">RUM Rides</h1>
                             { visible ?
                                 <Button className="home-button ms-2 text-white" variant="outline-success" onClick={() => setModalShow(true)}>Publish a Route !</Button>:null
                             }
