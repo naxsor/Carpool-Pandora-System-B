@@ -11,19 +11,21 @@ import CustomAlert from "./Alerts";
 
 function RideDisplayForm() {
     const state = useLocation().state
+    const previousData = location.state;
+
 
     //Map.js
     const mapRef = useRef(null);
-    const [startLocation, setStartLocation] = useState('');
-    const [destinationLocation, setDestinationLocation] = useState('');
+    const [startLocation, setStartLocation] = useState(previousData?.startLocation || "");
+    const [destinationLocation, setDestinationLocation] = useState(previousData?.destinationLocation || "");
     const [startMarker, setStartMarker] = useState(null);
     const [destinationMarker, setDestinationMarker] = useState(null);
     const [directionsService, setDirectionsService] = useState(null);
     const [directionsRenderer, setDirectionsRenderer] = useState(null);
-    const [travelTime, setTravelTime] = useState('');
-    const [luggageSize, setLuggageSize] = useState('');
-    const [seatsAvailable, setSeatsAvailable] = useState('');
-    const [departureDate, setDepartureDate] = useState('');
+    const [travelTime, setTravelTime] = useState(previousData?.travelTime || "");
+    const [luggageSize, setLuggageSize] = useState(previousData?.luggageSize || "");
+    const [seatsAvailable, setSeatsAvailable] = useState(previousData?.seatsAvailable || "");
+    const [departureDate, setDepartureDate] = useState(previousData?.departureDate || "");
     const [show, setshow] = useState(false);
     const [variant, setvariant] = useState("danger");
     const [message, setMessage] = useState("Mensaje")
