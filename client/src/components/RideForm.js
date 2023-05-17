@@ -7,13 +7,12 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import {Card} from "react-bootstrap";
-
+import CustomAlert from "./Alerts";
 function RideForm() {
     const state = useLocation().state
 
     //Map.js
     const mapRef = useRef(null);
-    const [email, setEmail] = useState('');
     const [startLocation, setStartLocation] = useState('');
     const [destinationLocation, setDestinationLocation] = useState('');
     const [startMarker, setStartMarker] = useState(null);
@@ -183,36 +182,52 @@ function RideForm() {
             return console.log(err)
         }
 
-        state
-            ? await axios.put(`/rides/${state.id}`, {
-                email: email,
-                travel_start: departureDate,
-                seats_available: seatsAvailable,
-                luggage_size: luggageSize
-            })
-            : await axios.post('/rides/new', {
-                email: email,
-                travel_start: departureDate,
-                seats_available: seatsAvailable,
-                luggage_size: luggageSize
-            }).then((response) => {
-                console.log(response.status, response.data);
-                if(response.status === 200){
-                    setvariant("success")
-                    setshow(true)
-                    setMessage("Your ride has been created.")
-                    document.getElementById("create-button").style.visibility = 'hidden'
-                }
-            }).catch(error => {
-                console.log(error)
-            });
-    };
+        axios.post('/rides/new', {
+            start_location: startLocation,
+            destination_location: destinationLocation,
+            travel_start: departureDate,
+            seats_available: seatsAvailable,
+            luggage_size: luggageSize
+        }).then((response) => {
+            console.log(response.status, response.data);
+            if(response.status === 200){
+                setvariant("success")
+                setshow(true)
+                setMessage("Your route has been created.")
+                document.getElementById("create-button").style.visibility = 'hidden'
+            }
+        }).catch(error => {
+            console.log(error)
+            // state
+            //     ? await axios.put(`/rides/${state.id}`, {
+            //         travel_start: departureDate,
+            //         seats_available: seatsAvailable,
+            //         luggage_size: luggageSize
+            //     })
+            //     : await axios.post('/rides/new', {
+            //         travel_start: departureDate,
+            //         seats_available: seatsAvailable,
+            //         luggage_size: luggageSize
+            //     }).then((response) => {
+            //         console.log(response.status, response.data);
+            //         if(response.status === 200){
+            //             setvariant("success")
+            //             setshow(true)
+            //             setMessage("Your ride has been created.")
+            //             document.getElementById("create-button").style.visibility = 'hidden'
+            //         }
+            //     }).catch(error => {
+            //         console.log(error)
+            //     });
+        })
+    }
 
-
-    return(
+    return (
         <Container fluid>
             <h1>Create Your Route !</h1>
             <text className="text-muted">Here you can create your a new route to offer to your peers.</text>
+            <CustomAlert>{children
+            }</CustomAlert>
             <hr className="hr hr-blurry"/>
             <Form onSubmit={handleSubmit}>
                 <Form.Group>
@@ -237,16 +252,6 @@ function RideForm() {
                                         placeholder="Destination Location"
                                         value={destinationLocation}
                                         onChange={(e) => setDestinationLocation(e.target.value)}/>
-                                </Col>
-                            </Row>
-                            <Row className="mb-4 flex-lg-row">
-                                <Col>
-                                    <Form.Label>Email</Form.Label>
-                                    <Form.Control type="text"
-                                                  name="email"
-                                                  value={email}
-                                                  onChange={(e) => setEmail(e.target.value)}
-                                    />
                                 </Col>
                             </Row>
                             <Row className="mb-4">
@@ -286,16 +291,18 @@ function RideForm() {
                                     />
                                 </Col>
                                 <Col>
-                                    <Form.Label >Estimated Time: </Form.Label>
+                                    <Form.Label>Estimated Time: </Form.Label>
                                     <Form.Control value={travelTime} disabled></Form.Control>
                                 </Col>
                             </Row>
                             <Row className="mt-4 flex-row">
                                 <Col>
-                                    <Button type="submit" className="button btn-lg d-block">Create Route</Button>
+                                    <Button type="submit" className="button btn-lg d-block">Create
+                                        Route</Button>
                                 </Col>
                                 <Col>
-                                    <Button className="button btn-lg d-block" onClick={handleRouteButtonClick}>Generate Route</Button>
+                                    <Button className="button btn-lg d-block" onClick={handleRouteButtonClick}>Generate
+                                        Route</Button>
                                 </Col>
                             </Row>
                         </Col>
@@ -306,8 +313,7 @@ function RideForm() {
                 </Form.Group>
             </Form>
         </Container>
-    );
-
+    )
 }
 
 export default RideForm

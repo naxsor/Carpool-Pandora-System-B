@@ -5,6 +5,7 @@ const {register_validation} = require("./validator");
 
 
 
+
 require('dotenv').config()
 
 //AUTHENTICATION
@@ -61,7 +62,7 @@ const login = (req, res) =>{
 
         if(!correctPassword) return res.status(400).json("Wrong email or password")
         
-        const user = { email: req.body.email}
+        const user = { id: data.rows[0].id}
         const accessToken = generateAccessToken(user)
 
         // console.log(accessToken) //For testing
@@ -85,13 +86,13 @@ function authenticateToken(req,res,next){
     if (!token) {
         res.status(401).send('Unauthorized: No token provided');
     } else {
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, {
+        jwt.verify(req.cookies.access_token, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: '1h'
         }, (err, decoded) =>{
             if(err) {
                 req.status(401).send('Unauthorized: Invalid token');
             } else {
-                req.email = decoded.email;
+                req.id = decoded.id;
                 next();
             }
         })
@@ -183,10 +184,20 @@ const deleteUser = (req, res) => {
 
 //RIDES
 const createRide = (req, res) =>{
-    
-    const q1 = 'SELECT * FROM member WHERE email = $1 AND "isDeleted" = false'
+    const x = jwt.verify(req.cookies.access_token, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: '1h'
+    }, (err, decoded) =>{
+        if(err) {
+            req.status(401).send('Unauthorized: Invalid token');
+        } else {
+            req.id = decoded.id;
+            // next();
+        }
+    })
+    // const x = authenticateToken(req,res)
+    const q1 = 'SELECT * FROM member WHERE id = $1 AND "isDeleted" = false'
 
-    db.query(q1, [req.body.email] /*[req.user.email]*/, (err, data) =>{
+    db.query(q1, [req.id] /*[req.user.email]*/, (err, data) =>{
         if(err) {
             return res.json(err)
         }
@@ -206,8 +217,8 @@ const createRide = (req, res) =>{
             const values = [
                 member_id,
                 req.body.travel_start,
-                req.body.source_city_id,
-                req.body.destination_city_id,
+                req.body.start_location,
+                req.body.destination_location,
                 req.body.seats_available,
                 luggage_size_id
             ]
