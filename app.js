@@ -40,4 +40,7 @@ app.post("/rides/new", /*qr.authenticateToken,*/ qr.createRide)
 
 // app.get("/cities", qr.getCities)
 
-
+// authentication endpoint
+app.get('/check-token', qr.authenticateToken, function(req, res) {
+    res.sendStatus(200);
+});

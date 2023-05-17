@@ -13,9 +13,9 @@ const Layout = ({children}) => {
             <Container fluid="mt-4" className="Container">
                 <Row>
                     <Col md="8">
-                        {/*<Content>*/}
+                        <Content>
                             {children.column}
-                        {/*</Content>*/}
+                        </Content>
                     </Col>
                     <Col md="4">
                         <Content>

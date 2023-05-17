@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import News from "./pages/News";
 import FindRoute from "./pages/FindRoute";
 import TestFetch from './pages/TestFetch';
-import RideForm from './pages/RideForm';
+import RideCreation from './pages/RideCreation';
 
 export default function App() {
     return (
@@ -18,7 +18,7 @@ export default function App() {
                 <Route path="news" element={<News />} />
                 <Route path="routes" element={<FindRoute />} />
                 <Route path="testFetch" element={<TestFetch />} />
-                <Route path="rideForm" element={<RideForm />} />
+                <Route path="rideForm" element={<RideCreation />} />
             </Routes>
         </BrowserRouter>
     );

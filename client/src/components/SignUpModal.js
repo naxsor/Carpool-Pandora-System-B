@@ -7,6 +7,8 @@ import Container from "react-bootstrap/Container";
 import {useState} from "react";
 import axios from "axios";
 import CustomAlert from "./Alerts";
+import "../stylesheets/style.css"
+
 
 function SignUpForm() {
     const [show, setshow] = useState(false);
@@ -109,11 +111,6 @@ function SignUpForm() {
             password:password,
             confirmpassword:confirmpassword}).then((response) => {
             console.log(response.status, response.data);
-            if(response.status === 1 ){
-                    setvariant("warning")
-                    setshow(true)
-                    setMessege("First Name can only contain letters.")
-            }
             if(response.status === 200){
                     setvariant("success")
                     setshow(true)
@@ -237,8 +234,8 @@ function SignUpModal(props) {
                 </Container>
             </Modal.Body>
             <Modal.Footer>
-                <Button form="signupform" type="submit">Sign Up</Button>
-                <Button onClick={props.onHide}>Close</Button>
+                <Button className="button" form="signupform" type="submit">Sign Up</Button>
+                <Button className="button" onClick={props.onHide}>Close</Button>
             </Modal.Footer>
         </Modal>
     );
