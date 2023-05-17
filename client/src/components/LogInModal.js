@@ -83,6 +83,7 @@ function LogInModal(props) {
             console.log(response.status, response.data);
             if(response.status === 200){
                 props.onHide()
+                // window.location.reload(false);
             }
         }).catch(err =>{
             // console.log(err);

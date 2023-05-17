@@ -1,7 +1,6 @@
 import {Component} from "react"
 import RideForm from "../components/RideForm";
-import Layout from "../components/Layout";
-
+import RideFormLayout from "../components/RideFormLayout";
 class RideCreation extends Component {
 
     children = {
@@ -11,9 +10,9 @@ class RideCreation extends Component {
     render(){
         return(
             <div className="App">
-                <Layout>
+                <RideFormLayout>
                     {this.children}
-                </Layout>
+                </RideFormLayout>
             </div>
         )
     }
