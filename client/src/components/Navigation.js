@@ -46,7 +46,7 @@ function Navigation() {
             {["false"].map((expand) => (
                 <Navbar key={expand} bg="light" expand={expand}>
                     <Container fluid>
-                        <Navbar.Brand href="/">College Rides</Navbar.Brand>
+                        <Navbar.Brand href="/">RUM Rides</Navbar.Brand>
 
                         <Nav className="ms-auto m-2">
                             <Form className="d-flex">
