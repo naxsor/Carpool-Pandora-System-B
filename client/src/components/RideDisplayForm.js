@@ -1,4 +1,3 @@
-import {useLocation} from "react-router-dom";
 import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
@@ -9,13 +8,15 @@ import Container from "react-bootstrap/Container";
 import {Card} from "react-bootstrap";
 import CustomAlert from "./Alerts";
 
-function RideDisplayForm() {
-    const state = useLocation().state
-    const previousData = location.state;
+function RideDisplayForm(id) {
+    const previousData = window.location.state;
 
 
     //Map.js
     const mapRef = useRef(null);
+    const [user, setUser] = useState('');
+    const [startCity, setStartCity] = useState('');
+    const [memberID, setMemberID] = useState('');
     const [startLocation, setStartLocation] = useState(previousData?.startLocation || "");
     const [destinationLocation, setDestinationLocation] = useState(previousData?.destinationLocation || "");
     const [startMarker, setStartMarker] = useState(null);
@@ -47,6 +48,25 @@ function RideDisplayForm() {
     }
 
     useEffect(() => {
+        if(startMarker === null){
+            const rideget= ['/rides/', id.children].join('')
+            axios.get(rideget).then(response => {
+                setMemberID(response.data.member_id)
+                setSeatsAvailable(response.data.seats_available)
+                setStartLocation(response.data.start_location)
+            })
+            const userget= ['/users/', memberID].join('')
+
+            axios.get(userget).then(response => {
+                setUser(response.data)
+            })
+
+            const cityget= ['/cities/', startLocation].join('')
+
+            axios.get(cityget).then(response=>{
+                setStartCity(response.data)
+            })
+        }
         const loadGoogleMapsScript = () => {
             if (!window.google) {
                 const script = document.createElement('script');
@@ -129,7 +149,7 @@ function RideDisplayForm() {
                 googleMapScript.parentNode.removeChild(googleMapScript);
             }
         };
-    }, []);
+    });
 
     const handleRouteButtonClick = () => {
         if (!startLocation || !destinationLocation) {
@@ -166,11 +186,6 @@ function RideDisplayForm() {
         const b = destinationLocation.split(',').shift()
         setStartLocation(a)
         setDestinationLocation(b)
-
-        const url = ['/cities/', startLocation].join('')
-        axios.get('/cities/').then(response =>{
-            console.log(response)
-        })
 
         console.log(
             startLocation,
@@ -239,13 +254,37 @@ function RideDisplayForm() {
         <Container fluid>
             <h1>Request a Route !</h1>
             <text className="text-muted">Here you can request a route from one of your peers.</text>
-            <CustomAlert>{children
-            }</CustomAlert>
+            <CustomAlert>{children}</CustomAlert>
             <hr className="hr hr-blurry"/>
             <Form onSubmit={handleSubmit}>
                 <Form.Group>
                     <Row>
                         <Col md="4">
+                            <Row className="mb-4">
+                                <Form.Label>User Information</Form.Label>
+                                <Col>
+                                    <img className="rounded-circle article-img"
+                                         alt=''
+                                         src="https://acas-website-bucket.s3.amazonaws.com/default.jpg"/>
+                                </Col>
+                                <Col xs={10}>
+                                    <Form.Text>{user.firstname} {user.lastname}</Form.Text>
+                                    <br/>
+                                    <Form.Text className="text-muted">Rating: 5</Form.Text>
+                                    <br/>
+                                    <Form.Text className="text-muted">December 02, 2021</Form.Text>
+                                </Col>
+                            </Row>
+                            <Row className="mb-4">
+                                <Form.Label>Route Information</Form.Label>
+                                <Col>
+                                    <Form.Text>Starting City: {startCity.name}, {startCity.state}</Form.Text>
+                                    <br/>
+                                    <Form.Text className="text-muted">Rating: 5</Form.Text>
+                                    <br/>
+                                    <Form.Text className="text-muted">December 02, 2021</Form.Text>
+                                </Col>
+                            </Row>
                             <Row className="mb-4 flex-lg-row">
                                 <Col>
                                     <Form.Label>Start Location</Form.Label>
@@ -253,7 +292,7 @@ function RideDisplayForm() {
                                         id="start-input"
                                         type="text"
                                         placeholder="Start Location"
-                                        value={startLocation}
+                                        value={memberID}
                                         onChange={(e) => setStartLocation(e.target.value)}
                                         readOnly
                                     />
